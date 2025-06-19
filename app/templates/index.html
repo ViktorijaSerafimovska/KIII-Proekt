@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Museum App{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="display-4">Welcome to the Museum!</h1>
+    <p class="lead">Discover visitors.</p>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Visitors</h5>
+                    <p class="card-text">Manage visitor information.</p>
+                    <div class="d-grid gap-2">
+                        <a href="/visitors" class="btn btn-dark">View Visitors</a>
+                        <a href="{{ url_for('main.add_visitor') }}" class="btn btn-outline-dark">Add Visitor</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/about" class="btn btn-outline-secondary">About this app</a>
+    </div>
+</div>
+{% endblock %}

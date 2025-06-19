@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Add Visitor - Museum App{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mb-4">Add New Visitor</h1>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('main.add_visitor') }}">
+                <div class="mb-3">
+                    <label class="form-label">Visitor Name*</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email*</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Visit Date*</label>
+                    <input type="date" class="form-control" name="visit_date" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Ticket Type*</label>
+                    <select class="form-select" name="ticket_type" required>
+                        <option value="">Select ticket type</option>
+                        <option value="regular">Regular</option>
+                        <option value="student">Student</option>
+                        <option value="senior">Senior</option>
+                        <option value="member">Member</option>
+                    </select>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary">Back</a>
+                    <button type="submit" class="btn btn-dark">Add Visitor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

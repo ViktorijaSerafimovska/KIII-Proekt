@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: museum-config
+  namespace: museum-namespace
+data:
+  POSTGRES_DB: museum_db
+  POSTGRES_USER: postgres
+  POSTGRES_HOST: museum-db
+  POSTGRES_PORT: "5432"

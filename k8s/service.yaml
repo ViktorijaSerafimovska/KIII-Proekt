@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: museum-service
+  namespace: museum-namespace
+spec:
+  selector:
+    app: museum
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000

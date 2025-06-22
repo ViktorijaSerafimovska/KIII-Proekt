@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: museum-app
+  namespace: museum-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: museum
+  template:
+    metadata:
+      labels:
+        app: museum
+    spec:
+      initContainers:
+        - name: init-db
+          image: vikiserafimovska/museum-app:latest
+          command: ['flask', 'db', 'upgrade']
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: museum-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: museum-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: museum-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: museum-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: museum-config
+                  key: POSTGRES_DB
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: museum-secret
+                  key: SECRET_KEY
+      containers:
+        - name: museum
+          image: vikiserafimovska/museum-app:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_APP
+              value: "run.py"
+            - name: FLASK_RUN_HOST
+              value: "0.0.0.0"
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: museum-secret
+                  key: SECRET_KEY
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: museum-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: museum-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: museum-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: museum-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: museum-config
+                  key: POSTGRES_DB
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10

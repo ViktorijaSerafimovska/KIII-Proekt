@@ -1,4 +1,4 @@
 Museum App
-This is an app for 
+This is an app for booking tickets for the museum. 
 
-Things to check  GitHub Actions CI test.
+-Just to check  GitHub Actions CI test.
